@@ -35,8 +35,5 @@
     "shortid": "^2.2.15",
     "uuid": "^8.0.0",
     "xmlbuilder2": "^2.1.2"
-  },
-  "engines": { 
-    "node": "20.1.0"
   }
 }
