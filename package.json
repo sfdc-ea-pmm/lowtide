@@ -37,6 +37,6 @@
     "xmlbuilder2": "^2.1.2"
   },
   "engines": {
-    "npm": "9.6.x"
+    "npm": "10.8.x"
   }
 }
