@@ -24,7 +24,7 @@ exports.store = (req) => {
     
     sf_object.opened_date = new Date()
 
-    conn.identity(async (err, _) => {
+    const resx = conn.identity(async (err, _) => {
       if (!err) {
 
         console.log(conn.userInfo);
@@ -51,7 +51,10 @@ exports.store = (req) => {
       }
     })
 
-
+    console.log(`user ID: ${resx.user_id}`);
+    console.log(`organization ID: ${resx.organization_id}`);
+    console.log(`username: ${resx.username}`);
+    console.log(`display name: ${resx.display_name}`);
   })
 
 }
