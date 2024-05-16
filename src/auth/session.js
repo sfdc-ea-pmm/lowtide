@@ -21,6 +21,9 @@ exports.store = (req) => {
     console.log(auth_credentials);
 
     const conn = new jsforce.Connection(auth_credentials)
+    
+    console.log("Logging Conn:");
+    console.log(conn);
 
     sf_object.opened_date = new Date()
 
