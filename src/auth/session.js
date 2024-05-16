@@ -24,6 +24,8 @@ exports.store = (req) => {
     conn.identity(async (err, _) => {
       if (!err) {
 
+        console.log(conn.userInfo);
+
         const relatedUser = await conn
           .sobject("User")
           .retrieve(conn.userInfo.id)
