@@ -34,7 +34,6 @@ const foundConnection = (req) => {
 
   const hasConnection = (
     req.session.salesforce &&
-    req.session.salesforce.auth_response !== {} &&
     req.session.salesforce.auth_response !== undefined
   )
 
@@ -88,7 +87,8 @@ const routeRequest = (req, res) => {
         })
       })
 
-  } else if (req.body.source === "credentials") {
+  }
+  else if (req.body.source === "credentials") {
 
     console.log("Authorizing with Username and Password.")
 
@@ -103,8 +103,8 @@ const routeRequest = (req, res) => {
           message: err
         })
       })
-
-  } else {
+  } 
+  else {
     res.status(500).json({
       message: "Must set request source."
     })

@@ -8,6 +8,7 @@ exports.store = (req) => {
   const auth_credentials = {
     sessionId: req.body.credentials.session_id,
     serverUrl: req.body.credentials.server_url,
+    instanceUrl: req.body.credentials.server_url,
     version: process.env.API_VERSION
   }
 
