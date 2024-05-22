@@ -20,7 +20,7 @@ const config = require("./config"),
       logger = require("./src/logger");
 
 const dbUri = process.env.MONGODB_URI,
-      dbOptions = {};
+      dbOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 mongoose.connect(dbUri, dbOptions)
   .then(util.databaseConnected)

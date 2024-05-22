@@ -8,7 +8,8 @@ const dbUri = process.env.MONGODB_URI
 const connection_options = {
   db : {
     address: dbUri,
-    collection: "tasks"
+    collection: "tasks",
+    options: { useNewUrlParser: true, useUnifiedTopology: true }
   }
 }
 
