@@ -52,8 +52,29 @@ exports.store = (req) => {
             console.error("Error retrieving user:", retrieveErr);
             reject("Error retrieving user: " + retrieveErr.message);
           }
-        } else {
-          reject("Invalid user info received.");
+        } else {          
+          //reject("Invalid user info received.");
+          console.error("Invalid user info received. Attempting to retrieve from Chatter API");
+          
+          const chatterRes = await conn.chatter.resource('/users/me');
+          console.log(chatterRes);
+
+          const relatedUser = await conn
+              .sobject("User")
+              .retrieve(chatterRes.user_id);
+
+            sf_object.opened_date = new Date();
+            sf_object.api = await getVersion(conn);
+
+            sf_object.auth_response = {
+              id: conn.userInfo.id,
+              name: relatedUser.Name,
+              username: relatedUser.Username,
+              accessToken: conn.accessToken,
+              instanceUrl: conn.instanceUrl,
+            };
+
+            resolve(sf_object);
         }
       } else {
         console.error("Identity error:", err);
