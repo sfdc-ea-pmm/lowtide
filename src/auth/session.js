@@ -25,32 +25,42 @@ exports.store = (req) => {
     
     sf_object.opened_date = new Date()
 
-    conn.identity(async (err, _) => {
+    conn.identity(async (err, res) => {
       if (!err) {
+        console.log("User Info:", conn.userInfo);
 
-        console.log(conn.userInfo);
+        // Check if userInfo.id is present and valid
+        if (conn.userInfo && conn.userInfo.id) {
+          try {
+            const relatedUser = await conn
+              .sobject("User")
+              .retrieve(conn.userInfo.id);
 
-        const relatedUser = await conn
-          .sobject("User")
-          .retrieve(conn.userInfo.id)
+            sf_object.opened_date = new Date();
+            sf_object.api = await getVersion(conn);
 
-        sf_object.opened_date = new Date()
-        sf_object.api = await getVersion(conn)
+            sf_object.auth_response = {
+              id: conn.userInfo.id,
+              name: relatedUser.Name,
+              username: relatedUser.Username,
+              accessToken: conn.accessToken,
+              instanceUrl: conn.instanceUrl,
+            };
 
-        sf_object.auth_response = {
-          id: conn.userInfo.id,
-          name: relatedUser.Name,
-          username: relatedUser.Username,
-          accessToken: conn.accessToken,
-          instanceUrl: conn.instanceUrl
+            resolve(sf_object);
+          } catch (retrieveErr) {
+            console.error("Error retrieving user:", retrieveErr);
+            reject("Error retrieving user: " + retrieveErr.message);
+          }
+        } else {
+          reject("Invalid user info received.");
         }
-
-        resolve(sf_object)
-
       } else {
-        reject("Could not authenticate with session information.")
+        console.error("Identity error:", err);
+        reject("Could not authenticate with session information.");
       }
-    })
-  })
+    });
+  
+  });
 
 }
