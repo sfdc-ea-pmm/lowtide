@@ -61,7 +61,7 @@ exports.store = (req) => {
 
           const relatedUser = await conn
               .sobject("User")
-              .retrieve(chatterRes.user_id);
+              .retrieve(chatterRes.id);
 
             sf_object.opened_date = new Date();
             sf_object.api = await getVersion(conn);
